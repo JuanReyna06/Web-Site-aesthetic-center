@@ -27,13 +27,13 @@ export default function HeroSection() {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            href="/contacto"
+            href="#contacto"
             className="w-64 sm:w-40 border-2 border-transparent bg-[#9E6B5A] hover:bg-[#BD8B7A]  text-white font-semibold text-sm sm:text-base px-4 py-3 sm:px-5 sm:py-4 rounded-full transition-all duration-300 "
           >
             Contacto
           </Link>
           <Link
-            href="/servicios"
+            href="#servicios"
             className="w-64 sm:w-40 border-2 border-[#BD8B7A] text-[#BD8B7A] hover:bg-[#BD8B7A] hover:text-white font-semibold text-sm sm:text-base px-4 py-3 sm:px-5 sm:py-4 rounded-full transition-all duration-300"
           >
             Ver servicios

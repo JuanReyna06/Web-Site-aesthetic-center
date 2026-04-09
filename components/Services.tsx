@@ -15,7 +15,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { Car } from "lucide-react";
 
 const categoriasServicios = [
   {
@@ -48,10 +47,14 @@ const categoriasServicios = [
   }
 ];
 
+const nroWhasapp = "5493517579702";
+const mensajeBase = "¡Hola! Me gustaría consultar por un turno con la Dra. Reartes.";
+const linkWsp = `https://wa.me/${nroWhasapp}?text=${encodeURIComponent(mensajeBase)}`;
+
 
 export default function Services() {
   return (
-    <section className="py-24 bg-[#FAFAFA]">
+    <section id="servicios" className="py-24 bg-[#FAFAFA]">
       <div className="max-w-7xl mx-auto px-6">
 
         <div className="text-center mb-20">
@@ -116,7 +119,7 @@ export default function Services() {
 
         <div className="text-center mt-5">
           <Link
-            href="https://wa.me/3517579702"
+            href={linkWsp}
             target="_blank"
             rel="noopener noreferrer"
             className="

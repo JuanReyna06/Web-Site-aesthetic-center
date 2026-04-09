@@ -6,11 +6,23 @@ import Link from "next/link";
 const links = {
   navegacion: [
     { label: "Inicio",     href: "/" },
-    { label: "Servicios",  href: "/servicios" },
-    { label: "Sobre mí",   href: "/aboutme" },
-    { label: "Contacto",   href: "/contacto" },
+    { label: "Servicios",  href: "#servicios" },
+    { label: "Sobre mí",   href: "#aboutme" },
+    { label: "Contacto",   href: "#contacto" },
   ]
 };
+
+const nroWhasapp = "5493517579702";
+const mensajeBase = "¡Hola! Me gustaría consultar por un turno con la Dra. Reartes.";
+const linkWsp = `https://wa.me/${nroWhasapp}?text=${encodeURIComponent(mensajeBase)}`;
+
+const emailDestino = "mlaurareartes69@hotmail.com";
+const asuntoBase = "Consulta de Turno / Información";
+// Usamos \n para hacer saltos de línea (un "Enter")
+const cuerpoBase = "Hola Dra. Reartes,\n\nMe gustaría solicitar información y disponibilidad para agendar un turno.\n\nAguardo sus comentarios. ¡Muchas gracias!";
+
+// 2. Armamos el link mágico (fijate que unimos subject y body con un "&")
+const linkEmail = `mailto:${emailDestino}?subject=${encodeURIComponent(asuntoBase)}&body=${encodeURIComponent(cuerpoBase)}`;
 
 export default function Footer() {
   return (
@@ -38,22 +50,22 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-4 mt-2">
-              <Link
+              <a
                 href="https://www.instagram.com/dra.laurareartes"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#BD8B7A] flex items-center justify-center transition-all duration-300"
               >
                 <Instagram size={18} />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://www.facebook.com/share/1Fi7Vv5GLv"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#BD8B7A] flex items-center justify-center transition-all duration-300"
               >
                 <Facebook size={18} />
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -84,8 +96,8 @@ export default function Footer() {
               Contacto
             </p>
             <div className="flex flex-col gap-5">
-              <Link
-                href="https://wa.me/3517579702"
+              <a
+                href={linkWsp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 group"
@@ -96,10 +108,10 @@ export default function Footer() {
                 <span className="text-sm text-gray-400 group-hover:text-white transition-colors duration-200">
                   +54 351 757-9702
                 </span>
-              </Link>
+              </a>
 
-              <Link
-                href="mailto:mlaurareartes69@hotmail.com"
+              <a
+                href={linkEmail}
                 className="flex items-center gap-3 group"
               >
                 <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-[#BD8B7A] flex items-center justify-center transition-colors duration-300 shrink-0">
@@ -108,7 +120,7 @@ export default function Footer() {
                 <span className="text-sm text-gray-400 group-hover:text-white transition-colors duration-200">
                   mlaurareartes69@hotmail.com
                 </span>
-              </Link>
+              </a>
 
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0">
@@ -131,9 +143,9 @@ export default function Footer() {
             © {new Date().getFullYear()} Dra. Reartes Maria Laura. Todos los derechos reservados.
           </p>
           <p className="text-xs text-gray-500">
-            Desarrollado por <Link href="https://www.linkedin.com/in/juan-reyna" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#BD8B7A] font-medium transition-colors">
+            Desarrollado por <a href="https://www.linkedin.com/in/juan-reyna" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#BD8B7A] font-medium transition-colors">
               Reyna Juan Ignacio
-            </Link>
+            </a>
           </p>
         </div>
       </div>

@@ -19,20 +19,29 @@ interface FormErrors {
 }
 
 // ── Constantes ─────────────────────────────────────────────────────────────────
-const WHATSAPP_NUMBER = "3517579702";
+const WHATSAPP_NUMBER = "5493517579702";
+const mensajeBase = "¡Hola! Me gustaría consultar por un turno con la Dra. Reartes.";
+const linkWsp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeBase)}`;
 
+const emailDestino = "mlaurareartes69@hotmail.com";
+const asuntoBase = "Consulta de Turno / Información";
+// Usamos \n para hacer saltos de línea (un "Enter")
+const cuerpoBase = "Hola Dra. Reartes,\n\nMe gustaría solicitar información y disponibilidad para agendar un turno.\n\nAguardo sus comentarios. ¡Muchas gracias!";
+
+// 2. Armamos el link mágico (fijate que unimos subject y body con un "&")
+const linkEmail = `mailto:${emailDestino}?subject=${encodeURIComponent(asuntoBase)}&body=${encodeURIComponent(cuerpoBase)}`;
 const infoContacto = [
   {
     icon: Phone,
     label: "Teléfono / WhatsApp",
     valor: "+54 351 757-9702",
-    href: `https://wa.me/${WHATSAPP_NUMBER}`,
+    href: linkWsp,
   },
   {
     icon: Mail,
     label: "Email",
     valor: "mlaurareartes69@hotmail.com",
-    href: "mailto:mlaurareartes69@hotmail.com",
+    href: linkEmail,
   },
   {
     icon: MapPin,
@@ -188,7 +197,7 @@ export default function Contact() {
   }
 
   return (
-    <section className="py-24 bg-[#FAFAFA]">
+    <section id="contacto" className="py-24 bg-[#FAFAFA]">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}

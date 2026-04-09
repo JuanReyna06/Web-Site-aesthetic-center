@@ -5,11 +5,14 @@ import Link from "next/link";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/aboutme", label: "Acerca de mí" },
-  { href: "/contacto", label: "Contacto" },
+  { href: "#servicios", label: "Servicios" },
+  { href: "#aboutme", label: "Acerca de mí" },
+  { href: "#contacto", label: "Contacto" },
 ];
 
+const nroWhasapp = "5493517579702";
+const mensajeBase = "¡Hola! Me gustaría consultar por un turno con la Dra. Reartes.";
+const linkWsp = `https://wa.me/${nroWhasapp}?text=${encodeURIComponent(mensajeBase)}`;
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,14 +71,14 @@ export default function Navbar() {
 
           {/* CTA — Desktop */}
           <div className="hidden md:block">
-            <Link
-              href="https://wa.me/3517579702"
+            <a
+              href={linkWsp}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#ad6f5a] hover:bg-[#ffffff] text-white hover:text-[#ad6f5a] border-2 border-transparent hover:border-[#ad6f5a] text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-center inline-block"
             >
               Reservar Turno
-            </Link>
+            </a>
           </div>
 
           {/* Botón Hamburguesa — Mobile */}
@@ -155,8 +158,8 @@ export default function Navbar() {
 
           {/* Footer del menú */}
           <div className="px-6 pb-12 flex flex-col gap-5">
-            <Link
-              href="https://wa.me/3517579702"
+            <a
+              href={linkWsp}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMenuOpen(false)}
@@ -171,7 +174,7 @@ export default function Navbar() {
               "
             >
               Reservar turno
-            </Link>
+            </a>
           </div>
         </div>
       )}
