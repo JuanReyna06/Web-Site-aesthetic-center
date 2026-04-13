@@ -3,6 +3,7 @@ import { useForm as useFormspree } from "@formspree/react";
 import { useState } from "react";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import Link from "next/link";
+import {motion , Variants} from "framer-motion";
 
 // ── Tipos ──────────────────────────────────────────────────────────────────────
 interface FormData {
@@ -128,6 +129,32 @@ function inputClass(hasError: boolean) {
   `;
 }
 
+// ── VARIANTES DE ANIMACIÓN ─────────────────────────────────────────────────────
+
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] } }
+};
+
+const leftColumnVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 } // Cascada para los íconos
+  }
+};
+
+const itemLeftVariants: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+const formVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98], delay: 0.4 } }
+};
+
+
 // ── Componente principal ───────────────────────────────────────────────────────
 export default function Contact() {
   const [form, setForm] = useState<FormData>({
@@ -172,24 +199,6 @@ export default function Contact() {
       message: `Paciente: ${form.nombre} Teléfono: ${form.telefono} Servicio: ${form.servicio} Consulta: ${form.mensaje || "Sin mensaje adicional"}`,
     })
 
-    // Armar el mensaje para WhatsApp - Remplazado pór mail 04/04/2026
-    /* const mensaje = [
-      `👋 Hola, mi nombre es *${form.nombre.trim()}*.`,
-      `📱 Mi teléfono: *${form.telefono.trim()}*`,
-      `💆 Me interesa el servicio de: *${form.servicio}*`,
-      form.mensaje.trim()
-        ? `📝 Mensaje: ${form.mensaje.trim()}`
-        : null,
-    ]
-      .filter(Boolean)   // saca el null si no hay mensaje
-      .join("\n");
-
-    // Redirigir a WhatsApp
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-      */
-
-
     // Limpiar el form y mostrar confirmación
     setEnviado(true);
     setForm({ nombre: "", telefono: "", servicio: "", mensaje: "" });
@@ -201,7 +210,13 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
-        <div className="text-center mb-20">
+        <motion.div 
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="text-center mb-20"
+        >
           <p className="text-[#BD8B7A] text-xs font-bold uppercase tracking-[0.3em] mb-4">
             Contacto
           </p>
@@ -211,15 +226,21 @@ export default function Contact() {
           <p className="text-gray-500 text-lg max-w-xl mx-auto leading-relaxed">
             Completá el formulario y te respondemos por WhatsApp a la brevedad.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
           {/* Info de contacto */}
           <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-6">
+            <motion.div 
+              variants={leftColumnVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              className="flex flex-col gap-6"
+            >
               {infoContacto.map(({ icon: Icon, label, valor, href }) => (
-                <div key={label} className="flex items-start gap-4">
+                <motion.div variants={itemLeftVariants} key={label} className="flex items-start gap-4">
                   <div className="w-11 h-11 rounded-xl bg-[#BD8B7A]/10 flex items-center justify-center shrink-0">
                     <Icon size={18} className="text-[#BD8B7A]" />
                   </div>
@@ -240,12 +261,12 @@ export default function Contact() {
                       <p className="text-[#333835] font-medium">{valor}</p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Mapa */}
-            <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm h-64">
+            <motion.div variants={itemLeftVariants} className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm h-64">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.602843515297!2d-64.2362836243934!3d-31.39751277427043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x943298c9208fb3cf%3A0x4facef2a89817e19!2sPedro%20de%20O%C3%B1ate%20253%2C%20X5002HWE%20C%C3%B3rdoba!5e0!3m2!1ses-419!2sar!4v1774736986990!5m2!1ses-419!2sar" 
                 width="100%"
@@ -256,11 +277,16 @@ export default function Contact() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             
-            </div>
+            </motion.div>
           </div>
 
           {/* Formulario */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-10">
+          <motion.div 
+            variants={formVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-10">
 
             {/* Estado de éxito */}
             {enviado ? (
@@ -359,7 +385,7 @@ export default function Contact() {
                 </button>
               </form>
             )}
-          </div>
+          </motion.div>
 
         </div>
       </div>

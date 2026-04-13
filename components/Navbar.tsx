@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence, Variants, easeOut } from "framer-motion";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
@@ -9,6 +10,35 @@ const navLinks = [
   { href: "#aboutme", label: "Acerca de mí" },
   { href: "#contacto", label: "Contacto" },
 ];
+
+const menuVariants: Variants = {
+  hidden: { opacity: 0, y: "-100%" },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.6, 
+      ease: easeOut, // 
+      when: "beforeChildren", // Espera a que baje el telón para animar los links
+      staggerChildren: 0.1 // Los links aparecen con 0.1s de diferencia
+    } 
+  },
+  exit: { 
+    opacity: 0, 
+    y: "-20%", // Se retrae un poco hacia arriba al cerrar
+    transition: { duration: 0.4, ease: "easeInOut" } 
+  }
+};
+
+// Animación individual de cada link del menú
+const linkVariants: Variants = {
+  hidden: { opacity: 0, x: -20 }, // Vienen desde la izquierda
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
+  }
+};
 
 const nroWhasapp = "5493517579702";
 const mensajeBase = "¡Hola! Me gustaría consultar por un turno con la Dra. Reartes.";
@@ -39,7 +69,10 @@ export default function Navbar() {
   return (
     <>
       {/* HEADER PRINCIPAL */}
-      <header
+      <motion.header 
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0,   opacity: 1 }}
+        transition={{ease: "easeOut", duration: 0.6}} 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-[#ffe9d4]/90 backdrop-blur-md border-b border-[#ad6f5a]/20 py-3"
@@ -59,13 +92,13 @@ export default function Navbar() {
           {/* Links Desktop */}
           <nav className="hidden md:flex items-center gap-16">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-900 hover:text-[#ad6f5a] hover:scale-105 transition-all duration-200"
-              >
-                {link.label}
-              </Link>
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-gray-900 hover:text-[#ad6f5a] hover:scale-105 transition-all duration-200"
+                >
+                  {link.label}
+                </Link>
             ))}
           </nav>
 
@@ -89,95 +122,101 @@ export default function Navbar() {
             <Menu size={28} />
           </button>
         </div>
-      </header>
+      </motion.header>
 
       {/* MENÚ MOBILE A PANTALLA COMPLETA */}
-      {menuOpen && (
-        <div
-          className="
-            fixed inset-0
-            bg-[#FAFAFA]
-            md:hidden
-            flex flex-col
-            z-100
-            animate-in fade-in duration-300
-          "
-        >
-          {/* Header del menú */}
-          <div className="flex items-center justify-between px-6 py-5 bg-[#BD8B7A]/10 border-b border-[#BD8B7A]/20">
-            <div>
-              <span className="text-xl font-serif text-[#333835]">
-                Dra. Reartes
-              </span>
-              <p className="text-[10px] text-[#BD8B7A] uppercase tracking-[0.2em] mt-0.5">
-                Medicina Estética
-              </p>
-            </div>
-
-            {/* Botón cerrar circular */}
-            <button
-              onClick={() => setMenuOpen(false)}
+      <AnimatePresence>
+        {menuOpen && (
+            <motion.div 
+              variants={menuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="
-                w-10 h-10 
-                flex items-center justify-center
-                text-[#333835] bg-white rounded-full shadow-sm hover:scale-105 transition-transform
+                fixed inset-0
+                bg-[#FAFAFA]
+                md:hidden
+                flex flex-col
+                z-100
               "
             >
-              <X size={22} />
-            </button>
-          </div>
+            {/* Header del menú */}
+            <div className="flex items-center justify-between px-6 py-5 bg-[#BD8B7A]/10 border-b border-[#BD8B7A]/20">
+              <div>
+                <span className="text-xl font-serif text-[#333835]">
+                  Dra. Reartes
+                </span>
+                <p className="text-[10px] text-[#BD8B7A] uppercase tracking-[0.2em] mt-0.5">
+                  Medicina Estética
+                </p>
+              </div>
 
-          {/* Links del menú */}
-          <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
+              {/* Botón cerrar circular */}
+              <button
                 onClick={() => setMenuOpen(false)}
                 className="
-                  flex items-center justify-between
-                  py-5
-                  border-b border-[#333835]/10 last:border-b-0
-                  group
+                  w-10 h-10 
+                  flex items-center justify-center
+                  text-[#333835] bg-white rounded-full shadow-sm hover:scale-105 transition-transform
                 "
               >
-                <span className="
-                  text-xl  text-[#333835]
-                  group-hover:text-[#BD8B7A]
-                  transition-colors duration-200
-                ">
-                  {link.label}
-                </span>
-                <ArrowRight
-                  size={20}
-                  className="text-[#BD8B7A] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-4 group-hover:translate-x-0"
-                />
-              </Link>
-            ))}
-          </nav>
+                <X size={22} />
+              </button>
+            </div>
 
-          {/* Footer del menú */}
-          <div className="px-6 pb-12 flex flex-col gap-5">
-            <a
-              href={linkWsp}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              className="
-                max-w-70 mx-auto
-                bg-[#9E6B5A] hover:bg-[#BD8B7A]
-                text-white font-semibold
-                block w-full text-center
-                text-base 
-                py-4 rounded-full shadow-lg shadow-[#9E6B5A]/20
-                transition-all duration-300
-              "
-            >
-              Reservar turno
-            </a>
-          </div>
-        </div>
-      )}
+            {/* Links del menú */}
+            <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
+              {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="
+                      flex items-center justify-between
+                      py-5
+                      border-b border-[#333835]/10 last:border-b-0
+                      group
+                    "
+                  >
+                    <span className="
+                      text-xl  text-[#333835]
+                      group-hover:text-[#BD8B7A]
+                      transition-colors duration-200
+                    ">
+                      {link.label}
+                    </span>
+                    <ArrowRight
+                      size={20}
+                      className="text-[#BD8B7A] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-4 group-hover:translate-x-0"
+                    />
+                  </Link>
+              ))}
+            </nav>
+
+            {/* Footer del menú */}
+            <motion.div variants={linkVariants} className="px-6 pb-12 flex flex-col gap-5">
+              <a
+                href={linkWsp}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="
+                  max-w-70 mx-auto
+                  bg-[#9E6B5A] hover:bg-[#BD8B7A]
+                  text-white font-semibold
+                  block w-full text-center
+                  text-base 
+                  py-4 rounded-full shadow-lg shadow-[#9E6B5A]/20
+                  transition-all duration-300
+                "
+              >
+                Reservar turno
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+        </AnimatePresence>
+      
     </>
-  );
-}
+  );  
+} 

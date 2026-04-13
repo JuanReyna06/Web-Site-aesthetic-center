@@ -6,6 +6,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { motion, Variants } from "framer-motion";
 
 import {
   Carousel,
@@ -51,13 +52,46 @@ const nroWhasapp = "5493517579702";
 const mensajeBase = "¡Hola! Me gustaría consultar por un turno con la Dra. Reartes.";
 const linkWsp = `https://wa.me/${nroWhasapp}?text=${encodeURIComponent(mensajeBase)}`;
 
+// Animacion del header de la sección
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] } 
+  }
+};
+
+//  Animación para las cards
+const listVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 } 
+  }
+};
+
+// Animación individual de cada card
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.5, ease: "easeOut" } 
+  }
+};
 
 export default function Services() {
   return (
-    <section id="servicios" className="py-24 bg-[#FAFAFA]">
+    <section  id="servicios" className="py-24 bg-[#FAFAFA]">
       <div className="max-w-7xl mx-auto px-6">
-
-        <div className="text-center mb-20">
+        {/* HEADER DE LA SECCIÓN */}
+        <motion.div 
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible" // La animación se activa hasta scrollear a esta sección
+          viewport={{ once: true, amount: 0.2 }} //
+          className="text-center mb-20">
           <p className="text-[#BD8B7A] text-xs md:text-sm font-bold uppercase tracking-[0.3em] mb-4">
             Especialidades Médicas
           </p>
@@ -68,14 +102,20 @@ export default function Services() {
             Cada procedimiento está diseñado con criterio clínico para revelar
             tu versión más equilibrada y radiante.
           </p>
-        </div>
+        </motion.div>
+          {/* CARDS DE SERVICIOS */}
         <div className="px-12"> 
           <Carousel opts={{align:"start", loop:true}}>
             <CarouselContent>
                 {categoriasServicios.map((categoria) => (
                     <CarouselItem key={categoria.nombre} className="basis-full md:basis-1/2 lg:basis-1/3">
                       <div className="flex flex-col h-full p-1">
-                             <div className="mb-8 border-b border-[#BD8B7A]/20 pb-6">
+                             <motion.div 
+                              variants={headerVariants} 
+                              initial="hidden" 
+                              whileInView="visible" 
+                              viewport={{ once: true, amount: 0.2 }} 
+                              className="mb-8 border-b border-[#BD8B7A]/20 pb-6">
                                 {/* Encabezado  Categoría */}
                                 <h3 className="text-2xl font-serif text-[#333835] mb-4 text-center">
                                   {categoria.nombre}
@@ -89,29 +129,36 @@ export default function Services() {
                                 <p className="text-[#BD8B7A] text-xs font-medium uppercase tracking-wider">
                                    {categoria.descripcion}
                                 </p>
-                            </div>
-                            <div className="space-y-4 flex-1">
+                            </motion.div>
+                            <motion.div
+                             variants={listVariants}
+                             initial="hidden"
+                             whileInView="visible"
+                             viewport={{ once: true, amount: 0.1 }}
+                             className="space-y-4 flex-1">
                                 {categoria.items.map((item) => (
-                                  <Card className="bg-white border border-[#BD8B7A]/10 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" key={item.titulo}>
-                                      <CardHeader>
-                                        <CardTitle className="text-[#333835] font-semibold flex items-center gap-2 text-base">
-                                          <span className="w-1.5 h-1.5 rounded-full bg-[#BD8B7A] shrink-0 mt-0.5" />
-                                          {item.titulo}
-                                        </CardTitle>
-                                        <CardDescription className="text-gray-500 text-sm leading-relaxed">
-                                          {item.detalle}
-                                        </CardDescription>
-                                      </CardHeader>
-                                  </Card>
+                                  <motion.div variants={cardVariants} key={item.titulo}> 
+                                    <Card className="bg-white border border-[#BD8B7A]/10 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" key={item.titulo}>
+                                        <CardHeader>
+                                          <CardTitle className="text-[#333835] font-semibold flex items-center gap-2 text-base">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-[#BD8B7A] shrink-0 mt-0.5" />
+                                            {item.titulo}
+                                          </CardTitle>
+                                          <CardDescription className="text-gray-500 text-sm leading-relaxed">
+                                            {item.detalle}
+                                          </CardDescription>
+                                        </CardHeader>
+                                    </Card>
+                                  </motion.div>
                                 ))}
 
-                            </div>
+                            </motion.div>
                       </div>
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="border-[#BD8B7A]/30 text-[#BD8B7A] hover:bg-[#BD8B7A] hover:text-white transition-colors duration-300" />
-            <CarouselNext    className="border-[#BD8B7A]/30 text-[#BD8B7A] hover:bg-[#BD8B7A] hover:text-white transition-colors duration-300" />
+            <CarouselPrevious className="border-[#BD8B7A]/30 text-[#BD8B7A] hover:bg-[#BD8B7A] hover:text-white transition-colors duration-100" />
+            <CarouselNext    className="border-[#BD8B7A]/30 text-[#BD8B7A] hover:bg-[#BD8B7A] hover:text-white transition-colors duration-100" />
           </Carousel>
         </div>
 
