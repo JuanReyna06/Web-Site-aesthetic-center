@@ -124,22 +124,22 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* MENÚ MOBILE A PANTALLA COMPLETA */}
+     {/* MENÚ MOBILE A PANTALLA COMPLETA */}
       <AnimatePresence>
         {menuOpen && (
-            <motion.div 
-              variants={menuVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="
-                fixed inset-0
-                bg-[#FAFAFA]
-                md:hidden
-                flex flex-col
-                z-100
-              "
-            >
+          <motion.div 
+            variants={menuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="
+              fixed inset-0
+              bg-[#FAFAFA]
+              md:hidden
+              flex flex-col
+              z-100 
+            "
+          >
             {/* Header del menú */}
             <div className="flex items-center justify-between px-6 py-5 bg-[#BD8B7A]/10 border-b border-[#BD8B7A]/20">
               <div>
@@ -167,19 +167,23 @@ export default function Navbar() {
             {/* Links del menú */}
             <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
               {navLinks.map((link) => (
+                // 1. AÑADIMOS EL motion.div AQUÍ para heredar la animación
+                <motion.div 
+                  key={link.href} 
+                  variants={linkVariants}
+                  className="border-b border-[#333835]/20 last:border-b-0"
+                >
                   <Link
-                    key={link.href}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
                     className="
                       flex items-center justify-between
                       py-5
-                      border-b border-[#333835]/10 last:border-b-0
                       group
                     "
                   >
                     <span className="
-                      text-xl  text-[#333835]
+                      text-xl text-[#333835]
                       group-hover:text-[#BD8B7A]
                       transition-colors duration-200
                     ">
@@ -190,6 +194,7 @@ export default function Navbar() {
                       className="text-[#BD8B7A] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-4 group-hover:translate-x-0"
                     />
                   </Link>
+                </motion.div>
               ))}
             </nav>
 
@@ -201,7 +206,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
                 className="
-                  max-w-70 mx-auto
+                  max-w-70 mx-auto 
                   bg-[#9E6B5A] hover:bg-[#BD8B7A]
                   text-white font-semibold
                   block w-full text-center
@@ -215,8 +220,7 @@ export default function Navbar() {
             </motion.div>
           </motion.div>
         )}
-        </AnimatePresence>
-      
+      </AnimatePresence>
     </>
   );  
 } 

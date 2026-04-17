@@ -2,9 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-html {
-  scroll-behavior: smooth;
-}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -59,6 +57,10 @@ html {
   --rosa-oscuro: #9E6B5A;
   --negro: #333835;
   --crema: #FAFAFA;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer base {
