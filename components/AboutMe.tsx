@@ -127,7 +127,6 @@ export default function About() {
             <motion.div variants={itemVariants} className="flex flex-col gap-2">
               {[
                 "Médica recibida en Universidad Nacional de Córdoba - Matrícula Profesional 25833/1",
-                "Especialización en Medicina Estética — FRM",
                 "Certificación en Armonización Facial",
               ].map((cert) => (
                 <div key={cert} className="flex items-start gap-3">
