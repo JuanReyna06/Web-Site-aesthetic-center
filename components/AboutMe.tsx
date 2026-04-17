@@ -48,7 +48,7 @@ export default function About() {
             className="relative"
           >
             <div className="overflow-hidden rounded-2xl">
-              <img src="/about/doctora.jpg" alt="Dra. Nombre Apellido" className="w-full h-150 object-cover object-top"/>
+              <img src="/doc2.jpeg" alt="Dra. Nombre Apellido" className="w-full object-cover object-top h-[350px] sm:h-[500px] lg:h-[600px] hover:scale-105 transition-transform duration-700"/>
             </div>
 
            
